@@ -18,19 +18,19 @@ import java.util.UUID;
  * @time Dec 8, 2017 5:05:46 PM
  */
 public abstract class AbstractDriver {
-    URL access_endpoint, desc_endpoint;
+    URL accessEndpoint, descEndpoint;
     ServiceType servicetype;
-    String current_operation;
+    String currentOperation;
     List<Operation> operlist;
     String id = UUID.randomUUID().toString(); //used to pair with Profile
     PayLoad response;
 
-    public String getCurrent_operation() {
-        return current_operation;
+    public String getCurrentOperation() {
+        return currentOperation;
     }
 
-    public void setCurrent_operation(String current_operation) {
-        this.current_operation = current_operation;
+    public void setCurrentOperation(String currentOperation) {
+        this.currentOperation = currentOperation;
     }
 
     public List<Operation> getOperlist() {
@@ -49,20 +49,20 @@ public abstract class AbstractDriver {
         this.id = id;
     }
 
-    public URL getAccess_endpoint() {
-        return access_endpoint;
+    public URL getAccessEndpoint() {
+        return accessEndpoint;
     }
 
-    public void setAccess_endpoint(URL access_endpoint) {
-        this.access_endpoint = access_endpoint;
+    public void setAccessEndpoint(URL accessEndpoint) {
+        this.accessEndpoint = accessEndpoint;
     }
 
-    public URL getDesc_endpoint() {
-        return desc_endpoint;
+    public URL getDescEndpoint() {
+        return descEndpoint;
     }
 
-    public void setDesc_endpoint(URL desc_endpoint) {
-        this.desc_endpoint = desc_endpoint;
+    public void setDescEndpoint(URL descEndpoint) {
+        this.descEndpoint = descEndpoint;
     }
 
     public ServiceType getServicetype() {
@@ -156,14 +156,6 @@ public abstract class AbstractDriver {
     abstract public List<Operation> digest();
 
     /**
-     * @param name
-     * @return
-     */
-    public void setCurrentOperation(String name) {
-        current_operation = name;
-    }
-
-    /**
      * If the service params are not contained in the description file,
      * use this function to initialize the input and output parameters.
      *
@@ -174,9 +166,9 @@ public abstract class AbstractDriver {
     public static abstract class Builder {
         public abstract Builder parse(String descfile);
 
-        public abstract Builder access_endpoint(URL url);
+        public abstract Builder accessEndpoint(URL url);
 
-        public abstract Builder desc_endpoint(URL url);
+        public abstract Builder descEndpoint(URL url);
 
         abstract public AbstractDriver build();
     }

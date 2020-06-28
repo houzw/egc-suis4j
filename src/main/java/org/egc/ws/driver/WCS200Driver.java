@@ -21,16 +21,16 @@ public class WCS200Driver extends OGCDriver {
     @Override
     public PayLoad encodeReq(Message msg) {
         Object content = null;
-        if ("GetCoverageList".equals(this.getCurrent_operation())) {
+        if ("GetCoverageList".equals(this.getCurrentOperation())) {
             content = WCSUtils.turnGetCapabilitiesTypeToXML(
-                    WCSUtils.createAGetCapabilitiesRequest());
-        } else if ("DescribeCoverage".equals(this.getCurrent_operation())) {
+                    WCSUtils.createGetCapabilitiesRequest());
+        } else if ("DescribeCoverage".equals(this.getCurrentOperation())) {
             content = WCSUtils.turnDescribeCoverageTypeToXML(
-                    WCSUtils.createADescribeCoverageRequest(
+                    WCSUtils.createDescribeCoverageRequest(
                             msg.getValueAsString("coverageId"), this.getVersion()));
-        } else if ("GetCoverage".equals(this.getCurrent_operation())) {
+        } else if ("GetCoverage".equals(this.getCurrentOperation())) {
             content = WCSUtils.turnGetCoverageTypeToXML(
-                    WCSUtils.createAGetCoverageRequest(
+                    WCSUtils.createGetCoverageRequest(
                             msg.getValueAsString("coverageId"), msg.getValueAsString("format"), this.getVersion()));
         }
         return new PayLoad.Builder()
@@ -40,14 +40,14 @@ public class WCS200Driver extends OGCDriver {
 
     @Override
     public Message decodeResp(PayLoad resp) {
-        Operation oper = this.getOperation(this.getCurrent_operation());
+        Operation oper = this.getOperation(this.getCurrentOperation());
         Message respmsg = new Message.Builder().build();
         try {
-            if ("GetCoverageList".equals(this.getCurrent_operation())) {
+            if ("GetCoverageList".equals(this.getCurrentOperation())) {
                 //list all the supported coverages
                 CapabilitiesType ct = WCSUtils.parseCapabilities(String.valueOf(resp.getContent()));
                 oper.getOutput().get("coveragelist").setValue(WCSUtils.getCoverageListString(ct));
-            } else if ("DescribeCoverage".equals(this.getCurrent_operation())) {
+            } else if ("DescribeCoverage".equals(this.getCurrentOperation())) {
                 CoverageDescriptionsType cdts = WCSUtils.parseCoverageDescriptions(String.valueOf(resp.getContent()));
                 CoverageDescriptionType cdt = cdts.getCoverageDescription().get(0);
                 oper.getOutput().get("coverageId").setValue(cdt.getCoverageId());
@@ -55,7 +55,7 @@ public class WCS200Driver extends OGCDriver {
                 oper.getOutput().get("domainSet").setValue(WCSUtils.turnDomainSetTypeToXML(cdt.getDomainSet().getValue()));
                 oper.getOutput().get("rangeType").setValue(WCSUtils.turnDataRecordPropertyTypeToXML(cdt.getRangeType()));
                 oper.getOutput().get("service-Parameters").setValue(WCSUtils.turnServiceParametersToXML(cdt.getServiceParameters()));
-            } else if ("GetCoverage".equals(this.getCurrent_operation())) {
+            } else if ("GetCoverage".equals(this.getCurrentOperation())) {
                 //save the coverage to a temporary file and give the file path back
                 oper.getOutput().get("coverage").setValue((String) resp.getContent());
             } else {
@@ -72,9 +72,9 @@ public class WCS200Driver extends OGCDriver {
     public List<Operation> digest() {
         operlist = new ArrayList();
         try {
-            CapabilitiesType ct = WCSUtils.parseCapabilities(this.getDesc_endpoint().toString());
+            CapabilitiesType ct = WCSUtils.parseCapabilities(this.getDescEndpoint().toString());
             capa = ct;
-            this.setAccess_endpoint(WCSUtils.getEndpoint(ct));
+            this.setAccessEndpoint(WCSUtils.getEndpoint(ct));
             //list coverages
             List<Parameter> inparams = new ArrayList();
             List<Parameter> outparams = new ArrayList();

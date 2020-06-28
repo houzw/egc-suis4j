@@ -19,9 +19,9 @@ public class WMS130Driver extends OGCDriver {
     @Override
     public PayLoad encodeReq(Message msg) {
         Object content = null;
-        if ("GetCapabilities".equals(this.getCurrent_operation())) {
+        if ("GetCapabilities".equals(this.getCurrentOperation())) {
             //do nothing
-        } else if ("GetMap".equals(this.getCurrent_operation())) {
+        } else if ("GetMap".equals(this.getCurrentOperation())) {
             content = "layers=" + msg.getValueAsString("layers") + "&bbox=" + msg.getValueAsString("bbox")
                     + "&width=" + msg.getValueAsString("width") + "&height=" + msg.getValueAsString("height")
                     + "&crs=" + msg.getValueAsString("crs") + "&format=" + msg.getValueAsString("format");
@@ -35,7 +35,7 @@ public class WMS130Driver extends OGCDriver {
 
     @Override
     public Message decodeResp(PayLoad resp) {
-        Operation oper = this.getOperation(this.getCurrent_operation());
+        Operation oper = this.getOperation(this.getCurrentOperation());
         Message respmsg = new Message.Builder().build();
         try {
             if ("GetCapabilities".equals(oper.getName())) {
@@ -56,10 +56,10 @@ public class WMS130Driver extends OGCDriver {
     public List<Operation> digest() {
         operlist = new ArrayList();
         try {
-            String capacontent = HttpUtils.doGet(this.getDesc_endpoint().toString());
+            String capacontent = HttpUtils.doGet(this.getDescEndpoint().toString());
             WMSCapabilities wmc = WMSUtils.parseWMSCapabilityResponse(capacontent);
             capa = wmc;
-            this.setAccess_endpoint(WMSUtils.getEndpoint(wmc));
+            this.setAccessEndpoint(WMSUtils.getEndpoint(wmc));
             //GetCapabilities
             List<Parameter> inparams = new ArrayList();
             List<Parameter> outparams = new ArrayList();

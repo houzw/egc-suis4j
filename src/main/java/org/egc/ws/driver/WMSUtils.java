@@ -26,11 +26,6 @@ import java.util.List;
 public class WMSUtils {
     private static Logger logger = LoggerFactory.getLogger(WMSUtils.class);
 
-    public static void main(String[] args) {
-        WMSUtils.parseWMS("http://ogc.bgs.ac.uk/cgi-bin/exemplars/BGS_Bedrock_and_Superficial_Geology/ows?service=WMS&request=GetCapabilities&version=1.3.0");
-        //WMSUtils.parseWMS("http://tb12.cubewerx.com/a041/cubeserv?","service=WMS&request=GetCapabilities&version=1.3.0");
-        //WMSUtils.parseWMS("http://sampleserver1.arcgisonline.com/ArcGIS/services/Specialty/ESRI_StatesCitiesRivers_USA/MapServer/WMSServer?", "service=WMS&request=GetCapabilities&version=1.3.0");
-    }
 
     /**
      * Parse WMS capabilities document to Layer list
@@ -39,19 +34,9 @@ public class WMSUtils {
      * @return
      */
     public static List<Layer> parseWMS(String url) {
-//		String wmsurl = "http://ws.csiss.gmu.edu:8080/geoserver/wms";
-//		String wmsurl = "https://nassgeodata.gmu.edu/cgi-bin/wms_cdl_ia.cgi?";
-        //	BBOX box = new BBOX("EPSG:4326", -77.527282, 38.934311, -76.887893, 39.353648);
-        //	BBOX box = new BBOX("EPSG:32618", 280940.92757638777, 4312524.259656975, 337335.10634472733, 4357722.154561454);
-//		BBOX box = new BBOX("EPSG:4326", -96,40,-90,43);
+
         List<Layer> layers = null;
         try {
-//			Vector<GeoFeature> gfVec2 = getWMSFeatures(wmsurl, box);
-//			logger.info("--------------------------------");
-//			logger.info("gfVec2.size()=" + gfVec2.size());
-//			for(GeoFeature gf:gfVec2) {
-//				logger.info("Name=" + gf.getName());
-//			}
             WMSCapabilities ca = WMSUtils.parseWMSCapabilityURL(url);
             logger.info("Layers : " + ca.getCapability().getLayer().getLayer().size());
             logger.info("WMS Name : " + ca.getCapability().getLayer().getName());
@@ -72,28 +57,12 @@ public class WMSUtils {
                 }
                 logger.info("==================");
             }
-            //send request to WMS
-//			String resp = MyHttpUtils.doPost("URL", getmaprequest);
-            //parse resp
-//			JAXBElement<GetMap> respele = WMSUtils.parseWMSGetCapabilitiesResponse(resp);
-//			String WMSURL = respele.getDataURL();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return layers;
     }
 
-    //	private static Employee jaxbXMLToObject() {
-//        try {
-//            JAXBContext context = JAXBContext.newInstance(Employee.class);
-//            Unmarshaller un = context.createUnmarshaller();
-//            Employee emp = (Employee) un.unmarshal(new File(FILE_NAME));
-//            return emp;
-//        } catch (JAXBException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
     public static URL getEndpoint(WMSCapabilities wmc) throws MalformedURLException {
         HTTP http = wmc.getCapability().getRequest().getGetMap().getDCPType().get(0).getHTTP();
         String exeurl = null;
@@ -126,7 +95,6 @@ public class WMSUtils {
             logger.info(getCapabilitiesResponse);
             JAXBContext jaxbContext = null;
             ca = JAXB.unmarshal(new StringReader(getCapabilitiesResponse), WMSCapabilities.class);
-            //logger.info(ca.getCapability().getRequest().getGetFeatureInfo().getDCPType().get(0).getHTTP().getGet().getOnlineResource().getHref());
             //Added by Lei Hu
             //for DGIWG wms
             logger.info(ca.getCapability().getRequest().getGetCapabilities().getDCPType().get(0).getHTTP().getGet().getOnlineResource().getHref());
@@ -165,7 +133,6 @@ public class WMSUtils {
      * @return
      */
     public static List<Layer> getLayerList(WMSCapabilities wmsc) {
-        //List<Layer> ll = wmsc.getCapability().getLayer().getLayer();
         //updated by Lei Hu 8/13/2016
         //For the DGIWG WMS
         List<Layer> l = wmsc.getCapability().getLayer().getLayer().get(0).getLayer();
@@ -188,7 +155,6 @@ public class WMSUtils {
     //updated by Lei Hu 8/16/2016
     public static List<Layer> getLayerL(WMSCapabilities wmsc) {
         List<Layer> l = wmsc.getCapability().getLayer().getLayer();
-        //List<Layer> l = wmsc.getCapability().getLayer().getLayer().get(0).getLayer();
         for (int i = 0; i < l.size(); i++) {
             Layer ll = l.get(i);
             if (ll.getName() != null) {
@@ -227,77 +193,6 @@ public class WMSUtils {
         WMSCapabilities ca = null;
         ca = JAXB.unmarshal(new StringReader(xml), WMSCapabilities.class);
         System.out.print(ca);
-//		ObjectFactory of = new ObjectFactory();
-////		WMSCapabilities wc = of.createWMSCapabilities();
-////		wc.getCapability();
-//		OperationType ot = of.createOperationType();
-//		JAXBElement<OperationType> getcapabilityreq = of.createGetCapabilities(ot);
-//		//turn jaxbelement to xml or json
-//		logger.info("GetCapability Request: " + WMSUtils.convertJAXBElementToXML(getcapabilityreq));
-        //return xml or json back
         return ca;
     }
-//	public static Vector<GeoFeature> getWMSFeatures(String wmsurl, BBOX box) throws Exception {
-//
-//		Vector<GeoFeature> featureVec = new Vector<GeoFeature>(); 
-//		wmsurl = wmsurl.trim();
-//		String wmsstr = wmsurl;
-//    	if(wmsurl.endsWith("?"))
-//    		wmsurl += "service=WMS&version=1.3.0&request=GetCapabilities";
-//    	else
-//    		wmsurl += "?service=WMS&version=1.3.0&request=GetCapabilities";
-//		
-//		Map connectionParameters = new HashMap();
-//		connectionParameters.put("WMSDataStoreFactory:GET_CAPABILITIES_URL", wmsurl);
-//		
-//		DataStore dstore = DataStoreFinder.getDataStore(connectionParameters);	
-//		//logger.info("dstore=" + dstore);
-//		String typeNames[] = dstore.getTypeNames();		
-//		if(typeNames == null)
-//			return null;
-//		
-//		String reqcrs[] = box.crs.split(":");
-//		CoordinateReferenceSystem reqepsg = ReferencingFactoryFinder.getCRSAuthorityFactory(reqcrs[0], null).createCoordinateReferenceSystem(reqcrs[1]);
-//		BoundingBox reqbound;
-//		if(box.crs.equalsIgnoreCase("EPSG:4326"))
-//			reqbound = new ReferencedEnvelope(box.miny, box.maxy, box.minx, box.maxx, reqepsg);
-//		else
-//			reqbound = new ReferencedEnvelope(box.minx, box.maxx, box.miny, box.maxy, reqepsg);
-//		
-//		logger.info("out bbox is " +box.toString());
-//		logger.info("Required bbox is " +reqbound);
-//		
-//		logger.info("Interscted WMS Layers are listed as");
-//		for(String tname: typeNames) {			
-//			FeatureSource<SimpleFeatureType, SimpleFeature> fsource = dstore.getFeatureSource(tname);
-//			ReferencedEnvelope databounds = fsource.getBounds();					
-//			BoundingBox datatarnsbounds = databounds.toBounds(reqepsg);												
-//			if(datatarnsbounds != null) {	
-//				logger.info( "src Bounds:"+ databounds);
-//				logger.info( "src Trans Bounds:"+ datatarnsbounds);
-//				logger.info( "req Bounds:"+ reqbound);
-//				if(!datatarnsbounds.intersects(reqbound)) {
-//				/*	logger.info("Not intersected");*/
-//					continue;
-//				}
-//				GeoFeature feature = new GeoFeature();			
-//				feature.setName(tname);
-//				feature.setTitle(tname);
-//				feature.setDescription(tname);
-//				feature.setWmsUrl(wmsstr);
-//				BBOX fbox;
-//				if(box.crs.equalsIgnoreCase("EPSG:4326"))
-//					fbox = new BBOX(box.crs, datatarnsbounds.getMinY(), datatarnsbounds.getMinX(), datatarnsbounds.getMaxY(), datatarnsbounds.getMaxX());
-//				else
-//					fbox = new BBOX(box.crs, datatarnsbounds.getMinX(), datatarnsbounds.getMinY(), datatarnsbounds.getMaxX(), datatarnsbounds.getMaxY());
-//				logger.info(tname + "--" +fbox.toString());
-//				feature.addBBOX(fbox);			
-//				featureVec.add(feature);
-//			}
-//		}		
-//		if(featureVec.size() > 0)
-//			return featureVec;
-//		else
-//			return null;
-//	}
 }

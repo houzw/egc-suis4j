@@ -21,7 +21,7 @@ public class WPS100Driver extends OGCDriver {
     public PayLoad encodeReq(Message msg) {
         Object content = null;
         WPSCapabilitiesType wpscapa = (WPSCapabilitiesType) capa;
-        ProcessDescriptionType pdt = (ProcessDescriptionType) processdescriptions.get(this.getCurrent_operation());
+        ProcessDescriptionType pdt = (ProcessDescriptionType) processdescriptions.get(this.getCurrentOperation());
         Execute exe = WPSUtils.getExecuteRequest(wpscapa, pdt, msg.toKVPs());
         content = WPSUtils.turnExecuteReqToXML(exe); //turn the Execute object to xml
         return new PayLoad.Builder()
@@ -31,7 +31,7 @@ public class WPS100Driver extends OGCDriver {
 
     @Override
     public Message decodeResp(PayLoad resp) {
-        Operation oper = this.getOperation(this.getCurrent_operation());
+        Operation oper = this.getOperation(this.getCurrentOperation());
         Message respmsg = new Message.Builder().build();
         try {
             ExecuteResponse er = WPSUtils.parseExecuteResp((String) resp.getContent());
@@ -69,9 +69,9 @@ public class WPS100Driver extends OGCDriver {
         operlist = new ArrayList();
         try {
             //add all the processes as operations
-            WPSCapabilitiesType wct = WPSUtils.parseCapabilities(this.getDesc_endpoint().toString());
+            WPSCapabilitiesType wct = WPSUtils.parseCapabilities(this.getDescEndpoint().toString());
             capa = wct;
-            this.setAccess_endpoint(new URL(WPSUtils.getExecuteEndpoint(wct)));
+            this.setAccessEndpoint(new URL(WPSUtils.getExecuteEndpoint(wct)));
             List<ProcessBriefType> processes = wct.getProcessOfferings().getProcess();
             processdescriptions = new HashMap();
             for (int i = 0; i < processes.size(); i++) {
@@ -99,7 +99,7 @@ public class WPS100Driver extends OGCDriver {
         if (o.getInput().getParameter_list() == null
                 || o.getOutput().getParameter_list() == null) {
             //get the inputs and outputs
-            ProcessDescriptions pds = WPSUtils.getProcessDescription(o.getName(), this.getAccess_endpoint().toString());
+            ProcessDescriptions pds = WPSUtils.getProcessDescription(o.getName(), this.getAccessEndpoint().toString());
             ProcessDescriptionType pdt = pds.getProcessDescription().get(0);
             processdescriptions.put(o.getName(), pdt);
             List<Parameter> paramlist = new ArrayList();

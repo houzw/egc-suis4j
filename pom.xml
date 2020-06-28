@@ -6,7 +6,7 @@
 
     <groupId>org.egc</groupId>
     <artifactId>egc-suis4j</artifactId>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
 
 
@@ -19,6 +19,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <geotools.version>23.0</geotools.version>
+        <jvnet.version>2.6.1</jvnet.version>
     </properties>
 
     <dependencies>
@@ -75,18 +76,18 @@
              <groupId>org.geotools.ogc</groupId>
              <artifactId>org.w3.xlink</artifactId>
              <version>${geotools.version}</version>
-         </dependency>-->
-        <!-- <dependency>
+         </dependency>
+          <dependency>
              <groupId>org.geotools</groupId>
              <artifactId>gt-wms</artifactId>
              <version>${geotools.version}</version>
-         </dependency>-->
-        <!--<dependency>
+         </dependency>
+         <dependency>
             <groupId>org.geotools</groupId>
             <artifactId>gt-wps</artifactId>
             <version>${geotools.version}</version>
-        </dependency>-->
-        <!--<dependency>
+        </dependency>
+        <dependency>
             <groupId>org.geotools.xsd</groupId>
             <artifactId>gt-xsd-wcs</artifactId>
             <version>${geotools.version}</version>
@@ -102,102 +103,101 @@
         <dependency>
             <groupId>org.jvnet.ogc</groupId>
             <artifactId>filter-v_1_1_0</artifactId>
-            <version>2.6.1</version>
+            <version>${jvnet.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jvnet.ogc</groupId>
             <artifactId>filter-v_2_0</artifactId>
-            <version>2.6.1</version>
+            <version>${jvnet.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jvnet.ogc</groupId>
             <artifactId>ows-v_1_1_0</artifactId>
-            <version>2.6.1</version>
+            <version>${jvnet.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jvnet.ogc</groupId>
             <artifactId>ows-v_1_0_0</artifactId>
-            <version>2.6.1</version>
+            <version>${jvnet.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jvnet.ogc</groupId>
             <artifactId>ows-v_2_0</artifactId>
-            <version>2.6.1</version>
+            <version>${jvnet.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.jvnet.ogc/wcs-v_1_1 -->
         <dependency>
             <groupId>org.jvnet.ogc</groupId>
             <artifactId>wcs-v_1_1</artifactId>
-            <version>2.6.1</version>
+            <version>${jvnet.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jvnet.ogc</groupId>
             <artifactId>wcs-v_2_0</artifactId>
-            <version>2.6.1</version>
+            <version>${jvnet.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.jvnet.ogc/wcs-v_1_0_0 -->
         <dependency>
             <groupId>org.jvnet.ogc</groupId>
             <artifactId>wcs-v_1_0_0</artifactId>
-            <version>2.6.1</version>
+            <version>${jvnet.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.jvnet.ogc/sweCommon-v_2_0 -->
         <dependency>
             <groupId>org.jvnet.ogc</groupId>
             <artifactId>sweCommon-v_2_0</artifactId>
-            <version>2.6.1</version>
+            <version>${jvnet.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jvnet.ogc</groupId>
             <artifactId>wfs-v_1_1_0</artifactId>
-            <version>2.6.1</version>
+            <version>${jvnet.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jvnet.ogc</groupId>
             <artifactId>wfs-v_2_0</artifactId>
-            <version>2.6.1</version>
+            <version>${jvnet.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jvnet.ogc</groupId>
             <artifactId>gmlcov-v_1_0</artifactId>
-            <version>2.6.1</version>
+            <version>${jvnet.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jvnet.ogc</groupId>
             <artifactId>gml-v_3_2_1</artifactId>
-            <version>2.6.1</version>
+            <version>${jvnet.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jvnet.ogc</groupId>
             <artifactId>gml-v_3_1_1</artifactId>
-            <version>2.6.1</version>
+            <version>${jvnet.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jvnet.ogc</groupId>
             <artifactId>csw-v_2_0_2</artifactId>
-            <version>2.6.1</version>
+            <version>${jvnet.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jvnet.ogc</groupId>
             <artifactId>wms-v_1_3_0</artifactId>
-            <version>2.6.1</version>
+            <version>${jvnet.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jvnet.ogc</groupId>
             <artifactId>wps-v_1_0_0</artifactId>
-            <version>2.6.1</version>
+            <version>${jvnet.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jvnet.ogc</groupId>
             <artifactId>wps-v_2_0</artifactId>
-            <version>2.6.1</version>
+            <version>${jvnet.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.jvnet.ws.wadl/wadl-core -->
-       <!-- <dependency>
-            <groupId>org.jvnet.ws.wadl</groupId>
-            <artifactId>wadl-core</artifactId>
-            <version>1.1.6</version>
-        </dependency>-->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>2.13.2</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/wsdl4j/wsdl4j -->
         <dependency>
             <groupId>wsdl4j</groupId>
@@ -222,85 +222,67 @@
              <groupId>org.n52.sensorweb</groupId>
              <artifactId>52n-xml-gml-v311</artifactId>
              <version>2.7.0</version>
-         </dependency>-->
-
-        <!-- https://mvnrepository.com/artifact/org.n52.sensorweb/52n-xml-gmlcov-v10 -->
-        <!-- <dependency>
+         </dependency>
+          <dependency>
              <groupId>org.n52.sensorweb</groupId>
              <artifactId>52n-xml-gmlcov-v10</artifactId>
              <version>2.7.0</version>
-         </dependency>-->
-        <!-- https://mvnrepository.com/artifact/org.n52.sensorweb/52n-xml-filter-v110 -->
-        <!-- <dependency>
+         </dependency>
+          <dependency>
              <groupId>org.n52.sensorweb</groupId>
              <artifactId>52n-xml-filter-v110</artifactId>
              <version>2.7.0</version>
-         </dependency>-->
-        <!-- https://mvnrepository.com/artifact/org.n52.sensorweb/52n-xml-wps-v100 -->
-        <!-- <dependency>
+         </dependency>
+         <dependency>
              <groupId>org.n52.sensorweb</groupId>
              <artifactId>52n-xml-wps-v100</artifactId>
              <version>2.7.0</version>
-         </dependency>-->
-        <!-- https://mvnrepository.com/artifact/org.n52.wps/52n-xml-wps-v20 -->
-        <!-- <dependency>
+         </dependency>
+         <dependency>
              <groupId>org.n52.wps</groupId>
              <artifactId>52n-xml-wps-v20</artifactId>
              <version>2.7.0</version>
-         </dependency>-->
-        <!-- https://mvnrepository.com/artifact/org.n52.sensorweb/52n-xml-sweCommon-v20 -->
-        <!-- <dependency>
+         </dependency>
+         <dependency>
              <groupId>org.n52.sensorweb</groupId>
              <artifactId>52n-xml-sweCommon-v20</artifactId>
              <version>2.7.0</version>
-         </dependency>-->
-        <!-- https://mvnrepository.com/artifact/org.n52.sensorweb/52n-xml-wms-v130 -->
-        <!-- <dependency>
+         </dependency>
+         <dependency>
              <groupId>org.n52.sensorweb</groupId>
              <artifactId>52n-xml-wms-v130</artifactId>
              <version>2.7.0</version>
-         </dependency>-->
-
-        <!-- https://mvnrepository.com/artifact/org.n52.sensorweb/52n-xml-wcs-v11 -->
-        <!-- <dependency>
+         </dependency>
+         <dependency>
              <groupId>org.n52.sensorweb</groupId>
              <artifactId>52n-xml-wcs-v11</artifactId>
              <version>2.7.0</version>
-         </dependency>-->
-
-        <!-- https://mvnrepository.com/artifact/org.n52.sensorweb/52n-xml-filter-v20 -->
-        <!-- <dependency>
+         </dependency>
+         <dependency>
              <groupId>org.n52.sensorweb</groupId>
              <artifactId>52n-xml-filter-v20</artifactId>
              <version>2.7.0</version>
-         </dependency>-->
-
-        <!-- https://mvnrepository.com/artifact/org.n52.sensorweb/52n-xml-wfs-v110 -->
-        <!--<dependency>
+         </dependency>
+         <dependency>
             <groupId>org.n52.sensorweb</groupId>
             <artifactId>52n-xml-wfs-v110</artifactId>
             <version>2.7.0</version>
-        </dependency>-->
-
-        <!-- https://mvnrepository.com/artifact/org.n52.sensorweb/52n-xml-ows-v20 -->
-        <!-- <dependency>
+        </dependency>
+        <dependency>
              <groupId>org.n52.sensorweb</groupId>
              <artifactId>52n-xml-ows-v20</artifactId>
              <version>2.7.0</version>
-         </dependency>-->
-        <!-- https://mvnrepository.com/artifact/org.n52.sensorweb/52n-xml-xlink-v110 -->
-        <!--<dependency>
+         </dependency>
+         <dependency>
             <groupId>org.n52.sensorweb</groupId>
             <artifactId>52n-xml-xlink-v110</artifactId>
             <version>2.7.0</version>
-        </dependency>-->
-        <!-- https://mvnrepository.com/artifact/org.n52.sensorweb/52n-xml-wfs-v20 -->
-        <!--  <dependency>
+        </dependency>
+        <dependency>
               <groupId>org.n52.sensorweb</groupId>
               <artifactId>52n-xml-wfs-v20</artifactId>
               <version>2.7.0</version>
           </dependency>
-
           <dependency>
               <groupId>org.n52.sensorweb</groupId>
               <artifactId>52n-xml-csw-v202</artifactId>

@@ -52,26 +52,11 @@ public class SOAPDriver extends AbstractDriver {
     @Override
     public PayLoad encodeReq(Message msg) {
         //get the template xml
-        String inputtemplate = templatemap.get(current_operation)[0];
+        String inputtemplate = templatemap.get(currentOperation)[0];
         String req = null;
         try {
             XmlObject xmlObjExpected = XmlObject.Factory.parse(inputtemplate);
             XmlCursor cursor = xmlObjExpected.newCursor();
-//			 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:vec="http://Vector_XYOffset.grass.ws.laits.gmu.edu">
-//			   <soapenv:Header/>
-//			   <soapenv:Body>
-//			      <vec:moveElement>
-//			         <vec:sourceURL>?</vec:sourceURL>
-//			         <vec:xoffset>?</vec:xoffset>
-//			         <vec:yoffset>?</vec:yoffset>
-//			      </vec:moveElement>
-//			   </soapenv:Body>
-//			</soapenv:Envelope>
-//			 String nsText = "declare namespace soapenv = 'http://schemas.xmlsoap.org/soap/envelope/'; ";
-//			 String pathText = "$this/soapenv:Envelope/soapenv:Body";
-//			 String queryText = nsText + pathText;
-//			 
-//			 cursor = cursor.execQuery(queryText);
             while (!cursor.toNextToken().isNone()) {
                 switch (cursor.currentTokenType().intValue()) {
                     case TokenType.INT_START:
@@ -106,7 +91,7 @@ public class SOAPDriver extends AbstractDriver {
     public void send(PayLoad req) {
         try {
             System.out.println(req.getContent());
-            String resp = HttpUtils.SOAP(String.valueOf(req.getContent()), this.current_operation, iface.getEndpoints()[0]);
+            String resp = HttpUtils.SOAP(String.valueOf(req.getContent()), this.currentOperation, iface.getEndpoints()[0]);
             System.out.println(resp);
             response = new PayLoad.Builder().content(resp).build();
         } catch (Exception e) {
@@ -122,16 +107,11 @@ public class SOAPDriver extends AbstractDriver {
     @Override
     public Message decodeResp(PayLoad resp) {
         String respxml = String.valueOf(resp.getContent()).trim();
-        Operation o = getOperation(this.current_operation);
+        Operation o = getOperation(this.currentOperation);
         boolean getoutput = false;
         try {
             XmlObject resp_xmlObj = XmlObject.Factory.parse(respxml);
             XmlCursor resp_cursor = resp_xmlObj.newCursor();
-//			 String nsText = "declare namespace soapenv = 'http://schemas.xmlsoap.org/soap/envelope/'; ";
-//			 String pathText = "$this/soapenv:Envelope/soapenv:Body";
-//			 String queryText = nsText + pathText;
-//			 
-//			 cursor = cursor.execQuery(queryText);
             while (!resp_cursor.toNextToken().isNone()) {
                 switch (resp_cursor.currentTokenType().intValue()) {
                     case TokenType.INT_START:
@@ -183,23 +163,6 @@ public class SOAPDriver extends AbstractDriver {
         try {
             XmlObject xmlObjExpected = XmlObject.Factory.parse(xml);
             XmlCursor cursor = xmlObjExpected.newCursor();
-//			 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:vec="http://Vector_XYOffset.grass.ws.laits.gmu.edu">
-//			   <soapenv:Header/>
-//			   <soapenv:Body>
-//			      <vec:moveElement>
-//			         <vec:sourceURL>?</vec:sourceURL>
-//			         <vec:xoffset>?</vec:xoffset>
-//			         <vec:yoffset>?</vec:yoffset>
-//			      </vec:moveElement>
-//			   </soapenv:Body>
-//			</soapenv:Envelope>
-//			 String nsText = "declare namespace soapenv = 'http://schemas.xmlsoap.org/soap/envelope/'; ";
-//			 String pathText = "$this/soapenv:Envelope/soapenv:Body";
-//			 String queryText = nsText + pathText;
-//			 
-//			 cursor = cursor.execQuery(queryText);
-//			 
-//			 log.info("Body: " + cursor.xmlText());
             while (!cursor.toNextToken().isNone()) {
                 switch (cursor.currentTokenType().intValue()) {
                     case TokenType.INT_START:
@@ -291,14 +254,14 @@ public class SOAPDriver extends AbstractDriver {
         }
 
         @Override
-        public Builder access_endpoint(URL url) {
-            driver.setAccess_endpoint(url);
+        public Builder accessEndpoint(URL url) {
+            driver.setAccessEndpoint(url);
             return this;
         }
 
         @Override
-        public Builder desc_endpoint(URL url) {
-            driver.setDesc_endpoint(url);
+        public Builder descEndpoint(URL url) {
+            driver.setDescEndpoint(url);
             return this;
         }
 

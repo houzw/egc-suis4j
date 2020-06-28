@@ -53,54 +53,54 @@ public class OGCDriver extends AbstractDriver {
         try {
             String resp = null;
             log.info(">> " + (String) req.getContent());
-            if ("GetFeature".equals(this.getCurrent_operation())
-                    || "DescribeFeatureType".equals(this.getCurrent_operation())
-                    || "GetMap".equals(this.getCurrent_operation())) {
+            if ("GetFeature".equals(this.getCurrentOperation())
+                    || "DescribeFeatureType".equals(this.getCurrentOperation())
+                    || "GetMap".equals(this.getCurrentOperation())) {
                 //doGetFile
                 String url = null;
-                if (this.getAccess_endpoint().toString().endsWith("?")) {
-                    url = this.getAccess_endpoint().toString();
-                } else if (this.getAccess_endpoint().toString().contains("?")) {
-                    url = this.getAccess_endpoint().toString() + "&";
+                if (this.getAccessEndpoint().toString().endsWith("?")) {
+                    url = this.getAccessEndpoint().toString();
+                } else if (this.getAccessEndpoint().toString().contains("?")) {
+                    url = this.getAccessEndpoint().toString() + "&";
                 } else {
-                    url = this.getAccess_endpoint().toString() + "?";
+                    url = this.getAccessEndpoint().toString() + "?";
                 }
-                url += "service=" + category + "&version=" + version + "&request=" + this.getCurrent_operation() + "&" + String.valueOf(req.getContent());
+                url += "service=" + category + "&version=" + version + "&request=" + this.getCurrentOperation() + "&" + String.valueOf(req.getContent());
                 this.dataurl = url;
-            } else if ("GetCoverage".equals(this.getCurrent_operation())) {
+            } else if ("GetCoverage".equals(this.getCurrentOperation())) {
                 if (this.version.equals("2.0.0")) {
                     super.fakesend(req);
                 } else if (this.version.equals("1.0.0")) {
                     //doGetFile
                     String url = null;
-                    if (this.getAccess_endpoint().toString().endsWith("?")) {
-                        url = this.getAccess_endpoint().toString();
-                    } else if (this.getAccess_endpoint().toString().contains("?")) {
-                        url = this.getAccess_endpoint().toString() + "&";
+                    if (this.getAccessEndpoint().toString().endsWith("?")) {
+                        url = this.getAccessEndpoint().toString();
+                    } else if (this.getAccessEndpoint().toString().contains("?")) {
+                        url = this.getAccessEndpoint().toString() + "&";
                     } else {
-                        url = this.getAccess_endpoint().toString() + "?";
+                        url = this.getAccessEndpoint().toString() + "?";
                     }
                     url += "service=" + category + "&version=" + version + "&request="
-                            + this.getCurrent_operation() + "&" + String.valueOf(req.getContent());
+                            + this.getCurrentOperation() + "&" + String.valueOf(req.getContent());
                     this.dataurl = url;
                 } else {
                     throw new RuntimeException("The version is not supported");
                 }
-            } else if ("GetMap".equals(this.getCurrent_operation())) {
+            } else if ("GetMap".equals(this.getCurrentOperation())) {
                 //doGetFile
                 String url = null;
-                if (this.getAccess_endpoint().toString().endsWith("?")) {
-                    url = this.getAccess_endpoint().toString();
-                } else if (this.getAccess_endpoint().toString().contains("?")) {
-                    url = this.getAccess_endpoint().toString() + "&";
+                if (this.getAccessEndpoint().toString().endsWith("?")) {
+                    url = this.getAccessEndpoint().toString();
+                } else if (this.getAccessEndpoint().toString().contains("?")) {
+                    url = this.getAccessEndpoint().toString() + "&";
                 } else {
-                    url = this.getAccess_endpoint().toString() + "?";
+                    url = this.getAccessEndpoint().toString() + "?";
                 }
                 url += "service=" + category + "&version=" + version + "&request="
-                        + this.getCurrent_operation() + "&" + String.valueOf(req.getContent());
+                        + this.getCurrentOperation() + "&" + String.valueOf(req.getContent());
                 this.dataurl = url;
-            } else if ("GetCapabilities".equals(this.getCurrent_operation())) {
-                resp = this.getOperation(this.getCurrent_operation()).getOutput().getValueAsString("capabilities");
+            } else if ("GetCapabilities".equals(this.getCurrentOperation())) {
+                resp = this.getOperation(this.getCurrentOperation()).getOutput().getValueAsString("capabilities");
             } else {
                 super.fakesend(req);
             }
@@ -117,68 +117,68 @@ public class OGCDriver extends AbstractDriver {
         try {
             String resp = null;
             log.info(">> " + (String) req.getContent());
-            if ("GetFeature".equals(this.getCurrent_operation())
-                    || "DescribeFeatureType".equals(this.getCurrent_operation())
-                    || "GetMap".equals(this.getCurrent_operation())) {
+            if ("GetFeature".equals(this.getCurrentOperation())
+                    || "DescribeFeatureType".equals(this.getCurrentOperation())
+                    || "GetMap".equals(this.getCurrentOperation())) {
                 String filename = "temp-" + UUID.randomUUID().toString();
                 //doGetFile
                 String url = null;
-                if (this.getAccess_endpoint().toString().endsWith("?")) {
-                    url = this.getAccess_endpoint().toString();
-                } else if (this.getAccess_endpoint().toString().contains("?")) {
-                    url = this.getAccess_endpoint().toString() + "&";
+                if (this.getAccessEndpoint().toString().endsWith("?")) {
+                    url = this.getAccessEndpoint().toString();
+                } else if (this.getAccessEndpoint().toString().contains("?")) {
+                    url = this.getAccessEndpoint().toString() + "&";
                 } else {
-                    url = this.getAccess_endpoint().toString() + "?";
+                    url = this.getAccessEndpoint().toString() + "?";
                 }
-                url += "service=" + category + "&version=" + version + "&request=" + this.getCurrent_operation() + "&" + String.valueOf(req.getContent());
+                url += "service=" + category + "&version=" + version + "&request=" + this.getCurrentOperation() + "&" + String.valueOf(req.getContent());
                 this.dataurl = url;
                 HttpUtils.doGETFile(url, HttpUtils.TEMPORARY_PATH + filename);
                 resp = "file:" + HttpUtils.TEMPORARY_PATH + filename;
-            } else if ("GetCoverage".equals(this.getCurrent_operation())) {
+            } else if ("GetCoverage".equals(this.getCurrentOperation())) {
                 //download the file and save to a temporary file path
                 String filename = "coverage-" + UUID.randomUUID().toString();
                 if (this.version.equals("2.0.0")) {
                     //doPostFile
-                    HttpUtils.doPostFile(this.getAccess_endpoint().toString(), String.valueOf(req.getContent()), HttpUtils.TEMPORARY_PATH + filename);
+                    HttpUtils.doPostFile(this.getAccessEndpoint().toString(), String.valueOf(req.getContent()), HttpUtils.TEMPORARY_PATH + filename);
                 } else if (this.version.equals("1.0.0")) {
                     //doGetFile
                     String url = null;
-                    if (this.getAccess_endpoint().toString().endsWith("?")) {
-                        url = this.getAccess_endpoint().toString();
-                    } else if (this.getAccess_endpoint().toString().contains("?")) {
-                        url = this.getAccess_endpoint().toString() + "&";
+                    if (this.getAccessEndpoint().toString().endsWith("?")) {
+                        url = this.getAccessEndpoint().toString();
+                    } else if (this.getAccessEndpoint().toString().contains("?")) {
+                        url = this.getAccessEndpoint().toString() + "&";
                     } else {
-                        url = this.getAccess_endpoint().toString() + "?";
+                        url = this.getAccessEndpoint().toString() + "?";
                     }
                     url += "service=" + category + "&version=" + version + "&request="
-                            + this.getCurrent_operation() + "&" + String.valueOf(req.getContent());
+                            + this.getCurrentOperation() + "&" + String.valueOf(req.getContent());
                     this.dataurl = url;
                     HttpUtils.doGETFile(url, HttpUtils.TEMPORARY_PATH + filename);
                 } else {
                     throw new RuntimeException("The version is not supported");
                 }
                 resp = "file:" + HttpUtils.TEMPORARY_PATH + filename;
-            } else if ("GetMap".equals(this.getCurrent_operation())) {
+            } else if ("GetMap".equals(this.getCurrentOperation())) {
                 String filename = "map-" + UUID.randomUUID().toString();
                 //doGetFile
                 String url = null;
-                if (this.getAccess_endpoint().toString().endsWith("?")) {
-                    url = this.getAccess_endpoint().toString();
-                } else if (this.getAccess_endpoint().toString().contains("?")) {
-                    url = this.getAccess_endpoint().toString() + "&";
+                if (this.getAccessEndpoint().toString().endsWith("?")) {
+                    url = this.getAccessEndpoint().toString();
+                } else if (this.getAccessEndpoint().toString().contains("?")) {
+                    url = this.getAccessEndpoint().toString() + "&";
                 } else {
-                    url = this.getAccess_endpoint().toString() + "?";
+                    url = this.getAccessEndpoint().toString() + "?";
                 }
                 url += "service=" + category + "&version=" + version + "&request="
-                        + this.getCurrent_operation() + "&" + String.valueOf(req.getContent());
+                        + this.getCurrentOperation() + "&" + String.valueOf(req.getContent());
                 this.dataurl = url;
                 HttpUtils.doGETFile(url, HttpUtils.TEMPORARY_PATH + filename);
                 resp = "file:" + HttpUtils.TEMPORARY_PATH + filename;
-            } else if ("GetCapabilities".equals(this.getCurrent_operation())) {
+            } else if ("GetCapabilities".equals(this.getCurrentOperation())) {
                 //do nothing
-                resp = this.getOperation(this.getCurrent_operation()).getOutput().getValueAsString("capabilities");
+                resp = this.getOperation(this.getCurrentOperation()).getOutput().getValueAsString("capabilities");
             } else {
-                resp = HttpUtils.doPost(this.getAccess_endpoint().toString(), (String) req.getContent());
+                resp = HttpUtils.doPost(this.getAccessEndpoint().toString(), (String) req.getContent());
             }
             log.info(">> " + resp);
             response = new PayLoad.Builder().content(resp).build();
@@ -195,7 +195,7 @@ public class OGCDriver extends AbstractDriver {
 
     @Override
     public Message decodeResp(PayLoad resp) {
-        Operation oper = this.getOperation(this.getCurrent_operation());
+        Operation oper = this.getOperation(this.getCurrentOperation());
         Message respmsg = oper.getOutput();
         return respmsg;
     }
@@ -257,7 +257,7 @@ public class OGCDriver extends AbstractDriver {
                 }
                 driver.setCategory(querykvp.get("service"));
                 driver.setVersion(querykvp.get("version"));
-                desc_endpoint(new URL(descfile));
+                descEndpoint(new URL(descfile));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             } catch (MalformedURLException e) {
@@ -267,14 +267,14 @@ public class OGCDriver extends AbstractDriver {
         }
 
         @Override
-        public Builder access_endpoint(URL url) {
-            driver.setAccess_endpoint(url);
+        public Builder accessEndpoint(URL url) {
+            driver.setAccessEndpoint(url);
             return this;
         }
 
         @Override
-        public Builder desc_endpoint(URL url) {
-            driver.setDesc_endpoint(url);
+        public Builder descEndpoint(URL url) {
+            driver.setDescEndpoint(url);
             return this;
         }
 

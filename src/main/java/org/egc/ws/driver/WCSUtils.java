@@ -94,7 +94,6 @@ public class WCSUtils {
             m.marshal(root, writer);
             // output string to console
             theXML = writer.toString();
-//			System.out.println(theXML);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -113,7 +112,6 @@ public class WCSUtils {
             m.marshal(root, writer);
             // output string to console
             theXML = writer.toString();
-//			System.out.println(theXML);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -132,7 +130,6 @@ public class WCSUtils {
             m.marshal(root, writer);
             // output string to console
             theXML = writer.toString();
-//			System.out.println(theXML);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -151,7 +148,6 @@ public class WCSUtils {
             m.marshal(root, writer);
             // output string to console
             theXML = writer.toString();
-//			System.out.println(theXML);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -170,7 +166,6 @@ public class WCSUtils {
             m.marshal(root, writer);
             // output string to console
             theXML = writer.toString();
-//			System.out.println(theXML);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -189,7 +184,6 @@ public class WCSUtils {
             m.marshal(root, writer);
             // output string to console
             theXML = writer.toString();
-//			System.out.println(theXML);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -208,7 +202,6 @@ public class WCSUtils {
             m.marshal(root, writer);
             // output string to console
             theXML = writer.toString();
-//			System.out.println(theXML);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -227,7 +220,6 @@ public class WCSUtils {
             m.marshal(root, writer);
             // output string to console
             theXML = writer.toString();
-//			System.out.println(theXML);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -246,7 +238,6 @@ public class WCSUtils {
             m.marshal(root, writer);
             // output string to console
             theXML = writer.toString();
-//			System.out.println(theXML);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -271,7 +262,6 @@ public class WCSUtils {
             m.marshal(root, writer);
             // output string to console
             theXML = writer.toString();
-//			System.out.println(theXML);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -360,12 +350,12 @@ public class WCSUtils {
         StringBuffer theXML = new StringBuffer();
         try {
             // serialise to xml
-            for (int i = 0; i < mds.size(); i++) {
+            for (Metadata md : mds) {
                 StringWriter writer = new StringWriter();
                 JAXBContext context = JAXBContext.newInstance(Metadata.class);
                 Marshaller m = context.createMarshaller();
                 QName qName = new QName("http://www.opengis.net/gmlcov/1.0", "metadata");
-                JAXBElement<Metadata> root = new JAXBElement<>(qName, Metadata.class, mds.get(i));
+                JAXBElement<Metadata> root = new JAXBElement<>(qName, Metadata.class, md);
                 m.marshal(root, writer);
                 // output string to console
                 theXML.append(writer.toString()).append("\n");
@@ -399,7 +389,7 @@ public class WCSUtils {
      *
      * @return
      */
-    public static GetCapabilitiesType createAGetCapabilitiesRequest() {
+    public static GetCapabilitiesType createGetCapabilitiesRequest() {
         ObjectFactory of = new ObjectFactory();
         GetCapabilitiesType gct = of.createGetCapabilitiesType();
         return gct;
@@ -417,7 +407,7 @@ public class WCSUtils {
      * @param coverageid
      * @return
      */
-    public static GetCoverageType createAGetCoverageRequest(String coverageid, String format, String version) {
+    public static GetCoverageType createGetCoverageRequest(String coverageid, String format, String version) {
         ObjectFactory of = new ObjectFactory();
         GetCoverageType gct = of.createGetCoverageType();
         gct.setVersion(version);
@@ -426,9 +416,9 @@ public class WCSUtils {
         return gct;
     }
 
-    public static String createA100GetCoverageRequest(String coverageid, String format, String version,
-                                                      String crs, String response_crs, String bbox, String time, String parameter, String width, String height, String depth,
-                                                      String resx, String resy, String resz, String interpolation, String exceptions) {
+    public static String create100GetCoverageRequest(String coverageid, String format, String version,
+                                                     String crs, String response_crs, String bbox, String time, String parameter, String width, String height, String depth,
+                                                     String resx, String resy, String resz, String interpolation, String exceptions) {
         StringBuffer kvps = new StringBuffer();
         kvps.append("coverage=").append(coverageid)
                 .append("&format=").append(format)
@@ -472,20 +462,20 @@ public class WCSUtils {
      * @param coverageid
      * @return
      */
-    public static DescribeCoverageType createADescribeCoverageRequest(String coverageid, String version) {
+    public static DescribeCoverageType createDescribeCoverageRequest(String coverageid, String version) {
         ObjectFactory of = new ObjectFactory();
         DescribeCoverageType dct = of.createDescribeCoverageType();
         dct.setVersion(version);
-        List cids = new ArrayList();
+        List<String> cids = new ArrayList<>();
         cids.add(coverageid);
         dct.setCoverageId(cids);
         return dct;
     }
 
-    public static DescribeCoverage createA100DescribeCoverageRequest(String valueAsString, String version) {
+    public static DescribeCoverage create100DescribeCoverageRequest(String valueAsString, String version) {
         net.opengis.wcs.v_1_0_0.ObjectFactory of = new net.opengis.wcs.v_1_0_0.ObjectFactory();
         DescribeCoverage dct = of.createDescribeCoverage();
-        List cids = new ArrayList();
+        List<String> cids = new ArrayList<>();
         cids.add(valueAsString);
         dct.setCoverage(cids);
         return dct;
@@ -523,8 +513,7 @@ public class WCSUtils {
     public static URL getEndpoint(CapabilitiesType ct) throws MalformedURLException {
         List<Operation> opers = ct.getOperationsMetadata().getOperation();
         String exeurl = null;
-        for (int i = 0; i < opers.size(); i++) {
-            Operation oper = opers.get(i);
+        for (Operation oper : opers) {
             if ("GetCoverage".equals(oper.getName())) {
                 exeurl = oper.getDCP().get(0).getHTTP().getGetOrPost().get(0).getValue().getHref();
             }
@@ -554,8 +543,7 @@ public class WCSUtils {
         ContentsType cts = ca.getContents();
         List<CoverageSummaryType> clist = cts.getCoverageSummary();
         StringBuffer capalist = new StringBuffer();
-        for (int i = 0; i < clist.size(); i++) {
-            CoverageSummaryType cst = clist.get(i);
+        for (CoverageSummaryType cst : clist) {
             capalist.append(cst.getCoverageId()).append("\n");
         }
         return capalist.toString();
@@ -563,9 +551,8 @@ public class WCSUtils {
 
     public static String get100CoverageListString(WCSCapabilitiesType ca) {
         List<CoverageOfferingBriefType> coverages = ca.getContentMetadata().getCoverageOfferingBrief();
-        StringBuffer capalist = new StringBuffer();
-        for (int i = 0; i < coverages.size(); i++) {
-            CoverageOfferingBriefType cst = coverages.get(i);
+        StringBuilder capalist = new StringBuilder();
+        for (CoverageOfferingBriefType cst : coverages) {
             capalist.append(cst.getWcsName()).append("\n");
         }
         return capalist.toString();
@@ -577,45 +564,14 @@ public class WCSUtils {
      * @param ca capabilities object
      * @return
      */
-    public static List getCoverageList(CapabilitiesType ca) {
+    public static List<String> getCoverageList(CapabilitiesType ca) {
         ContentsType cts = ca.getContents();
         List<CoverageSummaryType> clist = cts.getCoverageSummary();
-        List cids = new ArrayList();
-        for (int i = 0; i < clist.size(); i++) {
-            CoverageSummaryType cst = clist.get(i);
+        List<String> cids = new ArrayList<>();
+        for (CoverageSummaryType cst : clist) {
             cids.add(cst.getCoverageId());
         }
         return cids;
     }
 
-    public static void main(String[] args) throws Exception {
-//		String wcsurl = "http://cube.csiss.gmu.edu/cgi-bin/gbwcs-dem.cgi?service=wcs&request=getcapabilities&version=1.0.0";
-//		String wcsurl = "http://ows9.csiss.gmu.edu/cgi-bin/WCS20-r?service=wcs&request=getcapabilities&version=2.0.0";
-//		String wcsurl = "https://tb12.cubewerx.com/a045/cubeserv?DATASTORE=Satellite_Soil_Moisture&SERVICE=WCS&REQUEST=GetCapabilities";
-        String wcsurl = "http://129.174.131.10/cgi-bin/mapserv?SRS=EPSG:102004&LAYERS=drought.2017.289&MAP=/media/gisiv01/mapfiles/drought/16days/2017/drought.2017.289.map&SERVICE=WCS&VERSION=1.0.0&REQUEST=GetCapabilities"; //1.0.0
-//		String wcsurl = "http://www3.csiss.gmu.edu/axis2swa/services/GMU_SOAP_WCS_Service.GMU_SOAP_WCS_ServiceHttpSoap12Endpoint/";
-//		theLogger.info(wcsurl);
-        /**
-         * test parsing capability
-         */
-//		CapabilitiesType cat = WCSUtils.parseCapabilities(wcsurl);
-////		CapabilitiesType cat = WCSUtils.parseCapabilities_SOAP(wcsurl);
-//		theLogger.info("There are total "+cat.getContents().getCoverageSummary().size() + " coverages in this WCS.");
-        WCSCapabilitiesType wct = WCSUtils.parse100Capabilities(wcsurl);
-        theLogger.info(WCSUtils.get100Endpoint(wct) + "");
-        WCSUtils.get100CoverageListString(wct);
-        /**
-         * test describe coverage
-         */
-//		DescribeCoverageType dct = WCSUtils.createADescribeCoverageRequest("xyz", "2.0.0");
-//		CoverageDescriptionsType cdt = WCSUtils.getCoverageDescription(wcsurl, dct);
-        /**
-         * test get coverage
-         */
-//		WCSUtils.getCoverage_SOAP(wcsurl, "GEOTIFF:\"/home/zsun/testfiles/data/2010_305_30H.tif\":Band", "image/GEOTIFF");
-        /**
-         * test security
-         */
-//		WCSUtils.parseCapabilities_Security("http://cube.csiss.gmu.edu/axis2secure/services/GMU_SOAP_WCS_Service.GMU_SOAP_WCS_ServiceHttpSoap12Endpoint/", "client", "apache");
-    }
 }

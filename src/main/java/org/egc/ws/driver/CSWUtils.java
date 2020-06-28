@@ -51,11 +51,11 @@ public class CSWUtils {
     static Unmarshaller csw_jaxbUnmarshaller;
 
     static {
-        JAXBContext csw_jaxbContext = null;
+        JAXBContext cswJaxbContext = null;
         try {
-            csw_jaxbContext = JAXBContext.newInstance(net.opengis.csw.v_2_0_2.ObjectFactory.class, net.opengis.filter.v_1_1_0.ObjectFactory.class, net.opengis.gml.v_3_1_1.ObjectFactory.class);
-            csw_jaxbUnmarshaller = csw_jaxbContext.createUnmarshaller();
-            csw_jaxbmarshaller = csw_jaxbContext.createMarshaller();
+            cswJaxbContext = JAXBContext.newInstance(net.opengis.csw.v_2_0_2.ObjectFactory.class, net.opengis.filter.v_1_1_0.ObjectFactory.class, net.opengis.gml.v_3_1_1.ObjectFactory.class);
+            csw_jaxbUnmarshaller = cswJaxbContext.createUnmarshaller();
+            csw_jaxbmarshaller = cswJaxbContext.createMarshaller();
         } catch (JAXBException e) {
             e.printStackTrace();
         }
@@ -92,9 +92,7 @@ public class CSWUtils {
     public static void testLAITSCSW2() {
         String req = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><csw:GetRecords xmlns=\"http://www.opengis.net/cat/csw\" xmlns:csw=\"http://www.opengis.net/cat/csw\" xmlns:ogc=\"http://www.opengis.net/ogc\" xmlns:gml=\"http://www.opengis.net/gml\" version=\"2.0\" outputFormat=\"text/xml; charset=UTF-8\" outputSchema=\"http://www.opengis.net/cat/csw\" startPosition=\"1\" maxRecords=\"5\" requestId=\"GSTSCSF_ReqID_201661611928674_4\"><csw:FederationSearch CatalogServiceIDs=\"GMU_LAITS,NASA_ECHO\"/><csw:Query typeNames=\"DataGranule\">    <csw:ElementSetName>full</csw:ElementSetName><csw:ElementName>/DataGranule/</csw:ElementName>        <csw:Constraint version=\"1.0.0\">                <ogc:Filter>                    <ogc:And>           <ogc:BBOX>                                       <ogc:PropertyName>/DataGranule/BBOX</ogc:PropertyName>                                  <gml:Box srsName=\"EPSG:4326\">                                                <gml:coordinates>-122.335674957591,37.454539 -121.469275,37.904725</gml:coordinates>                </gml:Box>                               </ogc:BBOX>                             <ogc:PropertyIsGreaterThanOrEqualTo>                                    <ogc:PropertyName>/DataGranule/beginDateTime</ogc:PropertyName>                                      <ogc:Literal>2016-06-01 11:08:41</ogc:Literal>              </ogc:PropertyIsGreaterThanOrEqualTo>                            <ogc:PropertyIsLessThanOrEqualTo>                                       <ogc:PropertyName>/DataGranule/endDateTime</ogc:PropertyName>                                        <ogc:Literal>2016-06-08 11:08:41</ogc:Literal>                          </ogc:PropertyIsLessThanOrEqualTo>                           <ogc:PropertyIsEqualTo>                                 <ogc:PropertyName>/DataGranule/platformShortName</ogc:PropertyName>                                  <ogc:Literal>Aqua</ogc:Literal>                         </ogc:PropertyIsEqualTo>                    <ogc:PropertyIsEqualTo>                                  <ogc:PropertyName>/DataGranule/sensorShortName</ogc:PropertyName>                                   <ogc:Literal>MODIS</ogc:Literal>                         </ogc:PropertyIsEqualTo>                                <ogc:PropertyIsEqualTo>                     <ogc:PropertyName>/DataGranule/dataSetId</ogc:PropertyName>                                      <ogc:Literal>MODIS/Aqua Calibrated Radiances 5-Min L1B Swath 1km V005</ogc:Literal>                          </ogc:PropertyIsEqualTo>                        </ogc:And>              </ogc:Filter>   </csw:Constraint></csw:Query></csw:GetRecords>";
         try {
-//			System.out.print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\nRequest is: " + t.formatXML(req));
             String resp = HttpUtils.doPost("http://cube.csiss.gmu.edu/LAITSCSW2/discovery", req);
-//			System.out.print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\nResponse is: " + t.formatXML(resp));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -157,40 +155,7 @@ public class CSWUtils {
         QueryType query = cswof.createQueryType();
         QueryConstraintType constraint = cswof.createQueryConstraintType();
         constraint.setVersion("1.1.0");
-//		FilterType filter = of.createFilterType();
-//		
-//		//create a And component to list all the constraints
-//		BinaryLogicOpType and = of.createBinaryLogicOpType();
-//		
-//		//text like filter
-//		if(!BaseTool.isNull(keywords)&&!BaseTool.isNull(keywords.trim())){
-//			PropertyIsLikeType islike = of.createPropertyIsLikeType();
-//			islike.setWildCard("%");
-//			islike.setSingleChar("_");
-//			islike.setEscapeChar("\\");
-//			PropertyNameType pname = of.createPropertyNameType();
-//			pname.getContent().add("AnyText");
-//			LiteralType ltype = of.createLiteralType();
-//			ltype.getContent().add("%"+keywords+"%");
-//			islike.setPropertyName(pname);
-//			islike.setLiteral(ltype);
-//			JAXBElement<PropertyIsLikeType> value = of.createPropertyIsLike(islike);
-//			and.getOps().add(value);
-//		}
-//		
-//		//compose the request object
-//		JAXBElement<BinaryLogicOpType> andfilter = of.createAnd(and);
-//		
-//		filter.setLogicOps(andfilter);
-//		
-//		constraint.setFilter(filter);
-//		
         query.setConstraint(constraint);
-//		ElementSetNameType est = cswof.createElementSetNameType();
-//		
-//		est.setValue("");
-//		
-//		query.setElementSetName(value);
         query.getTypeNames().add(new QName("http://www.isotc211.org/2005/gmd", "MD_Metadata"));
         JAXBElement<QueryType> queryele = cswof.createQuery(query);
         getrecordsreq.setAbstractQuery(queryele);
@@ -286,15 +251,5 @@ public class CSWUtils {
         return sw.toString().trim();
     }
 
-    /**
-     * @param args
-     * @throws Exception
-     */
-    public static void main(String[] args) throws Exception {
-//		testLAITSCSW2();
-        CapabilitiesType ca = CSWUtils.parseCapability("http://tb12.essi-lab.eu/pubsub-csw/services/cswiso?service=CSW&version=2.0.2&request=GetCapabilities");
-//		CapabilitiesType ca = CSWUtils.parseCapability("http://www3.csiss.gmu.edu/cnrcsw.xml");
-        GetRecordsResponseType resp = getRecords(ca);
-        logger.info("Result Number: " + resp.getSearchResults().getNumberOfRecordsMatched());
-    }
+
 }

@@ -64,7 +64,7 @@ public class RESTDriver extends AbstractDriver {
 
     @Override
     public void send(PayLoad req) {
-        Operation o = this.getOperation(this.getCurrent_operation());
+        Operation o = this.getOperation(this.getCurrentOperation());
         try {
             String targeturl = o.getName() + "?" + String.valueOf(req.getContent());
             System.out.println("target url: " + targeturl);
@@ -85,7 +85,7 @@ public class RESTDriver extends AbstractDriver {
     @Override
     public Message decodeResp(PayLoad resp) {
         //default return is application/xml. other types of returns are not guaranteed.
-        Operation o = this.getOperation(this.getCurrent_operation());
+        Operation o = this.getOperation(this.getCurrentOperation());
         o.getOutput().get("return").setValue(resp.getContent()); //REST service has only one output in SUIS profile
         return o.getOutput();
     }
@@ -231,7 +231,7 @@ public class RESTDriver extends AbstractDriver {
                 StringReader reader = new StringReader(xml);
                 Application application = (Application) unmarshaller.unmarshal(reader);
                 driver.setApplication(application);
-                driver.setDesc_endpoint(new URL(descfile));
+                driver.setDescEndpoint(new URL(descfile));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -239,14 +239,14 @@ public class RESTDriver extends AbstractDriver {
         }
 
         @Override
-        public Builder access_endpoint(URL url) {
-            driver.setAccess_endpoint(url);
+        public Builder accessEndpoint(URL url) {
+            driver.setAccessEndpoint(url);
             return this;
         }
 
         @Override
-        public Builder desc_endpoint(URL url) {
-            driver.setDesc_endpoint(url);
+        public Builder descEndpoint(URL url) {
+            driver.setDescEndpoint(url);
             return this;
         }
 

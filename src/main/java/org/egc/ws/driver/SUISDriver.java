@@ -1,8 +1,6 @@
 package org.egc.ws.driver;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.egc.ws.profile.Message;
 import org.egc.ws.profile.Operation;
@@ -31,10 +29,6 @@ public class SUISDriver extends AbstractDriver {
         try {
             m = objectMapper.readValue((String) rawmsg, Message.class);
             logger.info("parameter size :" + m.getParameter_list().size());
-        } catch (JsonParseException e) {
-            e.printStackTrace();
-        } catch (JsonMappingException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -92,12 +86,12 @@ public class SUISDriver extends AbstractDriver {
         }
 
         @Override
-        public Builder access_endpoint(URL url) {
+        public Builder accessEndpoint(URL url) {
             return null;
         }
 
         @Override
-        public Builder desc_endpoint(URL url) {
+        public Builder descEndpoint(URL url) {
             return null;
         }
 

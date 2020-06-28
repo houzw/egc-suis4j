@@ -37,7 +37,8 @@ public class WSClient {
         try {
             resp = HttpUtils.doPost(url, request);
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            log.error(e.getLocalizedMessage());
         }
         return resp;
     }

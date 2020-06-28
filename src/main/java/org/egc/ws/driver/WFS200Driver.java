@@ -19,9 +19,9 @@ public class WFS200Driver extends OGCDriver {
     @Override
     public PayLoad encodeReq(Message msg) {
         Object content = null;
-        if ("GetFeature".equals(this.getCurrent_operation())) {
+        if ("GetFeature".equals(this.getCurrentOperation())) {
             content = msg.getValueAsString("query");
-        } else if ("DescribeFeatureType".equals(this.getCurrent_operation())) {
+        } else if ("DescribeFeatureType".equals(this.getCurrentOperation())) {
 //			DescribeFeatureTypeType dftt = WFSUtils.createADescribeFeatureTypeRequest(msg.getValueAsString("typeName"));
 //			content = WFSUtils.turnDescribeFeatureTypeTypeToXML(dftt);
             content = "typeNames=" + msg.getValueAsString("typeName");
@@ -33,7 +33,7 @@ public class WFS200Driver extends OGCDriver {
 
     @Override
     public Message decodeResp(PayLoad resp) {
-        Operation oper = this.getOperation(this.getCurrent_operation());
+        Operation oper = this.getOperation(this.getCurrentOperation());
         Message respmsg = new Message.Builder().build();
         try {
             if ("GetCapabilities".equals(oper.getName())) {
@@ -56,10 +56,10 @@ public class WFS200Driver extends OGCDriver {
     public List<Operation> digest() {
         operlist = new ArrayList();
         try {
-            String capacontent = HttpUtils.doGet(this.getDesc_endpoint().toString());
+            String capacontent = HttpUtils.doGet(this.getDescEndpoint().toString());
             WFSCapabilitiesType wca = WFSUtils.parseCapabilities(capacontent);
             capa = wca;
-            this.setAccess_endpoint(WFSUtils.getEndpoint(wca));
+            this.setAccessEndpoint(WFSUtils.getEndpoint(wca));
             //list features
             List<Parameter> inparams = new ArrayList();
             List<Parameter> outparams = new ArrayList();
